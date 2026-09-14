@@ -1,5 +1,5 @@
 /**
- * Ayuvera - Black Garlic Chyawanprash Landing Page Logic
+ * Ayuvera - Black Garlic Hradaya Prash Landing Page Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Pricing & Bundle Selector State
   let currentBundle = {
-    title: '1 जार (100% Sugar-Free • 30 दिन की खुराक)',
+    title: '1 जार (Ayuvera Hradaya Prash • 30 दिन की खुराक)',
     price: 1899,
     originalPrice: 2499,
     savings: '24% की बचत'
@@ -257,12 +257,10 @@ document.addEventListener('DOMContentLoaded', () => {
       cartItemsContainer.innerHTML = `
         <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 12px; color: var(--antique-gold);">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
-          <p style="font-weight: 700; font-size: 1.1rem; color: var(--herbal-green-dark);">आपकी Diabetes Care कार्ट खाली है</p>
-          <p style="font-size: 0.9rem; margin-top: 6px;">अपनी रोज़मर्रा की सेहत और Blood Sugar संतुलन के लिए Black Garlic Prash जोड़ें।</p>
+          <p style="font-weight: 700; font-size: 1.1rem; color: var(--herbal-green-dark);">आपकी Heart Care कार्ट खाली है</p>
+          <p style="font-size: 0.9rem; margin-top: 6px;">अपने दिल की सेहत, कोलेस्ट्रॉल और ब्लड प्रेशर संतुलन के लिए Ayuvera Hradaya Prash जोड़ें।</p>
         </div>
       `;
       if (cartSubtotal) cartSubtotal.textContent = '₹0';
@@ -317,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
         existing.qty += quantity;
       } else {
         cartItems.push({
-          title: `Sugar-Free Black Garlic Prash (${currentBundle.title})`,
+          title: `Ayuvera Hradaya Prash (${currentBundle.title})`,
           price: currentBundle.price,
           qty: quantity,
           img: 'assets/images/hero_jar.jpg'
@@ -434,8 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
       callbackForm.reset();
     });
   }
-
-
 
   // 6. Accordion FAQs
   const faqItems = document.querySelectorAll('.faq-item');
