@@ -1,25 +1,3 @@
-/**
- * ==============================================================================
- * GOOGLE APPS SCRIPT CODE FOR AYUVERA HRADAYA PRASH
- * ==============================================================================
- * 
- * 📋 SETUP INSTRUCTIONS (सेटअप निर्देश):
- * 1. Go to https://sheets.google.com and open or create a Google Sheet (उदा: "Ayuvera Heart Leads").
- * 2. Click on "Extensions" (एक्सटेंशन) > "Apps Script" in the top menu.
- * 3. Delete any default code in Code.gs, and paste this entire code.
- * 4. Click the "Save" icon (Ctrl + S / Cmd + S).
- * 5. Click the blue "Deploy" (तैनात करें) button at top-right > select "New deployment".
- * 6. Under "Select type", click the gear icon ⚙️ and select "Web app".
- * 7. Set the following options:
- *    - Description: "Ayuvera Heart Lead Capture"
- *    - Execute as: "Me (आपका ईमेल)"
- *    - Who has access: "Anyone" (महत्वपूर्ण: Anyone सेलेक्ट करें ताकि फॉर्म से डेटा सेव हो सके)
- * 8. Click "Deploy", approve Google permissions (Click "Advanced" > "Go to ... (unsafe)").
- * 9. Copy the generated "Web app URL" (e.g., https://script.google.com/macros/s/.../exec).
- * 10. Open `assets/js/main.js` in your project and paste your URL in `GOOGLE_SHEET_WEB_APP_URL`.
- * ==============================================================================
- */
-
 function doPost(e) {
   return handleLeadSubmission(e);
 }
@@ -35,7 +13,7 @@ function handleLeadSubmission(e) {
 
   try {
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    
+
     // Auto-create formatted headers if sheet is empty
     if (sheet.getLastRow() === 0) {
       var headers = [
@@ -49,7 +27,7 @@ function handleLeadSubmission(e) {
         "Source"
       ];
       sheet.appendRow(headers);
-      
+
       var headerRange = sheet.getRange(1, 1, 1, headers.length);
       headerRange.setFontWeight("bold");
       headerRange.setBackground("#1B3B2B"); // Dark Ayurvedic Green

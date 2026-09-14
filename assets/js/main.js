@@ -330,8 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // GOOGLE SHEET & LEAD MODALS (WITH 24-HOUR DUPLICATE PHONE CHECK)
   // ==========================================================================
-  // 👉 Paste your Google Apps Script Web App URL here after deploying google_apps_script.js
-  const GOOGLE_SHEET_WEB_APP_URL = '';
+  const GOOGLE_SHEET_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyIjLXkA_1olzu_UkREs7hHDgX-jUKCyFYtOJeTOHFrn_NtKK3o91GaXazpqOZoGdsy/exec';
 
   const callbackModal = document.getElementById('callbackModal');
   const callbackModalClose = document.getElementById('callbackModalClose');
