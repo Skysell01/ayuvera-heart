@@ -1052,6 +1052,55 @@
   </div>
 
   <!-- ==========================================================================
+       DUPLICATE CONTACT NUMBER POPUP MODAL (24-Hour Cooldown)
+       ========================================================================== -->
+  <div class="modal-overlay" id="duplicateModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="duplicateTitle">
+    <div class="modal-card duplicate-modal-card">
+      <button class="modal-close-btn" id="duplicateModalClose" aria-label="Close duplicate modal">✕</button>
+      
+      <div class="duplicate-content">
+        <!-- Warning Alert Icon Badge -->
+        <div class="duplicate-badge-wrap">
+          <div class="duplicate-icon-pulse">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="duplicate-eyebrow">⚠️ अनुरोध पहले ही प्राप्त हो चुका है</div>
+        <h3 id="duplicateTitle" class="duplicate-title">
+          You Have Already Submitted!
+        </h3>
+        <p class="duplicate-subtitle">
+          मोबाइल नंबर <strong id="duplicatePhoneDisplay" style="color: var(--antique-gold-dark);">+91 ••••••••••</strong> से आपकी रिक्वेस्ट पिछले 24 घंटों में पहले ही दर्ज की जा चुकी है।
+        </p>
+
+        <!-- 24-Hour Cooldown Notice Box -->
+        <div class="duplicate-cooldown-box">
+          <div class="cooldown-badge">
+            <span style="font-size: 1.3rem;">⏳</span>
+            <strong>Please wait for 24 hours</strong>
+          </div>
+          <p class="cooldown-text">
+            हमारी आयुर्वेदिक कार्डियक मेडिकल टीम आपकी पिछली रिक्वेस्ट पर कार्य कर रही है और आपको जल्द ही कॉल करेगी। कृपया 24 घंटे का समय दें, दोबारा फॉर्म भरने की आवश्यकता नहीं है।
+          </p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="duplicate-action-buttons">
+          <button type="button" class="btn btn-primary btn-lg" id="duplicateModalDoneBtn" style="width: 100%;">
+            ठीक है, समझ गया (OK, Understood)
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
        SAMPLE REVIEW MODAL
        ========================================================================== -->
   <div class="modal-overlay" id="reviewModal">

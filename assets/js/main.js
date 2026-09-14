@@ -327,17 +327,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Callback Popup Modal & Thank You Popup Modal Handlers
+  // ==========================================================================
+  // GOOGLE SHEET & LEAD MODALS (WITH 24-HOUR DUPLICATE PHONE CHECK)
+  // ==========================================================================
+  // 👉 Paste your Google Apps Script Web App URL here after deploying google_apps_script.js
+  const GOOGLE_SHEET_WEB_APP_URL = '';
+
   const callbackModal = document.getElementById('callbackModal');
   const callbackModalClose = document.getElementById('callbackModalClose');
   const callbackForm = document.getElementById('callbackForm');
+  const callbackSubmitBtn = document.getElementById('callbackSubmitBtn');
+  
   const thankYouModal = document.getElementById('thankYouModal');
   const thankYouModalClose = document.getElementById('thankYouModalClose');
   const thankYouModalDoneBtn = document.getElementById('thankYouModalDoneBtn');
   const thankYouCustomerName = document.getElementById('thankYouCustomerName');
   const thankYouPhone = document.getElementById('thankYouPhone');
   const thankYouCity = document.getElementById('thankYouCity');
+
+  const duplicateModal = document.getElementById('duplicateModal');
+  const duplicateModalClose = document.getElementById('duplicateModalClose');
+  const duplicateModalDoneBtn = document.getElementById('duplicateModalDoneBtn');
+  const duplicatePhoneDisplay = document.getElementById('duplicatePhoneDisplay');
+
   const ctaButtons = document.querySelectorAll('.btn-buy-now, #heroBuyNow, #stickyBuyNow');
+
+  const TWENTY_FOUR_HOURS_MS = 24 * 60 * 60 * 1000;
+
+  // Local 24-Hour Cooldown Check Helpers
+  function getPhoneStorageKey(phone) {
+    return `ayuvera_lead_${phone}`;
+  }
+
+  function isPhoneSubmittedWithin24Hours(phone) {
+    if (!phone) return false;
+    const clean = phone.replace(/\D/g, '').slice(-10);
+    const storedTime = localStorage.getItem(getPhoneStorageKey(clean));
+    if (!storedTime) return false;
+    const timeDiff = Date.now() - parseInt(storedTime, 10);
+    return timeDiff < TWENTY_FOUR_HOURS_MS;
+  }
+
+  function markPhoneAsSubmitted(phone) {
+    if (!phone) return;
+    const clean = phone.replace(/\D/g, '').slice(-10);
+    localStorage.setItem(getPhoneStorageKey(clean), Date.now().toString());
+  }
 
   function openCallbackModal() {
     if (!callbackModal) return;
@@ -369,6 +404,21 @@ document.addEventListener('DOMContentLoaded', () => {
     thankYouModal.setAttribute('aria-hidden', 'true');
   }
 
+  function openDuplicateModal(phone) {
+    if (!duplicateModal) return;
+    if (duplicatePhoneDisplay) {
+      duplicatePhoneDisplay.textContent = phone ? `+91 ${phone}` : '+91 ••••••••••';
+    }
+    duplicateModal.classList.add('active');
+    duplicateModal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeDuplicateModal() {
+    if (!duplicateModal) return;
+    duplicateModal.classList.remove('active');
+    duplicateModal.setAttribute('aria-hidden', 'true');
+  }
+
   ctaButtons.forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -388,6 +438,14 @@ document.addEventListener('DOMContentLoaded', () => {
     thankYouModalDoneBtn.addEventListener('click', closeThankYouModal);
   }
 
+  if (duplicateModalClose) {
+    duplicateModalClose.addEventListener('click', closeDuplicateModal);
+  }
+
+  if (duplicateModalDoneBtn) {
+    duplicateModalDoneBtn.addEventListener('click', closeDuplicateModal);
+  }
+
   if (callbackModal) {
     callbackModal.addEventListener('click', (e) => {
       if (e.target === callbackModal) {
@@ -404,6 +462,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  if (duplicateModal) {
+    duplicateModal.addEventListener('click', (e) => {
+      if (e.target === duplicateModal) {
+        closeDuplicateModal();
+      }
+    });
+  }
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       if (callbackModal && callbackModal.classList.contains('active')) {
@@ -412,24 +478,110 @@ document.addEventListener('DOMContentLoaded', () => {
       if (thankYouModal && thankYouModal.classList.contains('active')) {
         closeThankYouModal();
       }
+      if (duplicateModal && duplicateModal.classList.contains('active')) {
+        closeDuplicateModal();
+      }
     }
   });
 
   if (callbackForm) {
-    callbackForm.addEventListener('submit', (e) => {
+    callbackForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('callbackName')?.value.trim() || 'ग्राहक जी';
-      const phone = document.getElementById('callbackPhone')?.value.trim() || '';
+      const rawPhone = document.getElementById('callbackPhone')?.value.trim() || '';
+      const cleanPhone = rawPhone.replace(/\D/g, '').slice(-10);
       const city = document.getElementById('callbackCity')?.value.trim() || '';
 
-      // Close Lead Form Modal & Open Thank You Popup Modal
-      closeCallbackModal();
-      setTimeout(() => {
-        openThankYouModal(name, phone, city);
-        showToast(`🎉 धन्यवाद ${name}! कॉलबैक रिक्वेस्ट दर्ज हो गई है।`);
-      }, 200);
+      if (cleanPhone.length !== 10) {
+        alert('कृपया 10 अंकों का सही मोबाइल नंबर दर्ज करें।');
+        return;
+      }
 
-      callbackForm.reset();
+      // Step 1: Client-side instant 24-hour duplicate check
+      if (isPhoneSubmittedWithin24Hours(cleanPhone)) {
+        closeCallbackModal();
+        openDuplicateModal(cleanPhone);
+        return;
+      }
+
+      // Button Loading State
+      const originalBtnHtml = callbackSubmitBtn ? callbackSubmitBtn.innerHTML : '';
+      if (callbackSubmitBtn) {
+        callbackSubmitBtn.disabled = true;
+        callbackSubmitBtn.innerHTML = `
+          <svg class="btn-spinner" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation: spin 0.8s linear infinite; margin-right: 8px;">
+            <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+            <path d="M12 2a10 10 0 0 1 10 10"></path>
+          </svg>
+          रिक्वेस्ट दर्ज हो रही है...
+        `;
+      }
+
+      const payload = {
+        name: name,
+        contact: cleanPhone,
+        city: city,
+        bundle: currentBundle ? currentBundle.title : 'Ayuvera Hradaya Prash (1 Jar)',
+        price: currentBundle ? `₹${currentBundle.price.toLocaleString('en-IN')}` : '₹1,499',
+        source: 'Ayuvera Heart Official Website'
+      };
+
+      try {
+        let isDuplicateFromServer = false;
+
+        // Step 2: Send data to Google Sheet if Web App URL is configured
+        if (GOOGLE_SHEET_WEB_APP_URL && GOOGLE_SHEET_WEB_APP_URL.startsWith('http')) {
+          try {
+            const response = await fetch(GOOGLE_SHEET_WEB_APP_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'text/plain;charset=utf-8'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+              const result = await response.json();
+              if (result && result.result === 'duplicate') {
+                isDuplicateFromServer = true;
+              }
+            }
+          } catch (fetchErr) {
+            console.warn('Google Sheet fetch fallback:', fetchErr);
+            // Even if network restricts CORS, request reached or we fallback gracefully
+          }
+        }
+
+        // Handle Duplicate or Success
+        closeCallbackModal();
+
+        if (isDuplicateFromServer) {
+          markPhoneAsSubmitted(cleanPhone);
+          setTimeout(() => {
+            openDuplicateModal(cleanPhone);
+          }, 200);
+        } else {
+          markPhoneAsSubmitted(cleanPhone);
+          setTimeout(() => {
+            openThankYouModal(name, cleanPhone, city);
+            showToast(`🎉 धन्यवाद ${name}! कॉलबैक रिक्वेस्ट दर्ज हो गई है।`);
+          }, 200);
+          callbackForm.reset();
+        }
+
+      } catch (err) {
+        console.error('Submission error:', err);
+        closeCallbackModal();
+        markPhoneAsSubmitted(cleanPhone);
+        setTimeout(() => {
+          openThankYouModal(name, cleanPhone, city);
+        }, 200);
+      } finally {
+        if (callbackSubmitBtn) {
+          callbackSubmitBtn.disabled = false;
+          callbackSubmitBtn.innerHTML = originalBtnHtml;
+        }
+      }
     });
   }
 
