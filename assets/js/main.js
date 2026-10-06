@@ -1,5 +1,5 @@
 /**
- * Ayuvera - Black Garlic Hradaya Prash Landing Page Logic
+ * Madhavbaug - Black Garlic Hradaya Prash Landing Page Logic
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 2. Pricing & Bundle Selector State
   let currentBundle = {
-    title: '1 जार (Ayuvera Hradaya Prash • 30 दिन की खुराक)',
+    title: '1 जार (Madhavbaug Hradaya Prash • 30 दिन की खुराक)',
     price: 1899,
     originalPrice: 2499,
     savings: '24% की बचत'
@@ -260,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
           <p style="font-weight: 700; font-size: 1.1rem; color: var(--herbal-green-dark);">आपकी Heart Care कार्ट खाली है</p>
-          <p style="font-size: 0.9rem; margin-top: 6px;">अपने दिल की सेहत, कोलेस्ट्रॉल और ब्लड प्रेशर संतुलन के लिए Ayuvera Hradaya Prash जोड़ें।</p>
+          <p style="font-size: 0.9rem; margin-top: 6px;">अपने दिल की सेहत, कोलेस्ट्रॉल और ब्लड प्रेशर संतुलन के लिए Madhavbaug Hradaya Prash जोड़ें।</p>
         </div>
       `;
       if (cartSubtotal) cartSubtotal.textContent = '₹0';
@@ -315,10 +315,10 @@ document.addEventListener('DOMContentLoaded', () => {
         existing.qty += quantity;
       } else {
         cartItems.push({
-          title: `Ayuvera Hradaya Prash (${currentBundle.title})`,
+          title: `Madhavbaug Hradaya Prash (${currentBundle.title})`,
           price: currentBundle.price,
           qty: quantity,
-          img: 'assets/images/hero_jar.jpg'
+          img: 'assets/images/madhavbaug_hero.jpg'
         });
       }
       updateCartUI();
@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Local 24-Hour Cooldown Check Helpers
   function getPhoneStorageKey(phone) {
-    return `ayuvera_lead_${phone}`;
+    return `madhavbaug_lead_${phone}`;
   }
 
   function isPhoneSubmittedWithin24Hours(phone) {
@@ -520,9 +520,9 @@ document.addEventListener('DOMContentLoaded', () => {
         name: name,
         contact: cleanPhone,
         city: city,
-        bundle: currentBundle ? currentBundle.title : 'Ayuvera Hradaya Prash (1 Jar)',
+        bundle: currentBundle ? currentBundle.title : 'Madhavbaug Hradaya Prash (1 Jar)',
         price: currentBundle ? `₹${currentBundle.price.toLocaleString('en-IN')}` : '₹1,499',
-        source: 'Ayuvera Heart Official Website'
+        source: 'Madhavbaug Heart Official Website'
       };
 
       try {

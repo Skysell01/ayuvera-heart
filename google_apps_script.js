@@ -52,7 +52,7 @@ function handleLeadSubmission(e) {
     var rawContact = (data.contact || data.phone || "").toString();
     var cleanContact = rawContact.replace(/\D/g, "").slice(-10);
     var city = (data.city || "-").toString().trim();
-    var bundle = (data.bundle || "Ayuvera Hradaya Prash").toString().trim();
+    var bundle = (data.bundle || "Madhavbaug Hradaya Prash").toString().trim();
     var price = (data.price || "₹1,499").toString().trim();
     var source = (data.source || "Website Form").toString().trim();
 
